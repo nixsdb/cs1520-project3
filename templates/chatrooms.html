@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Chatrooms</h2>
+{% if chatrooms %}
+    <ul>
+    {% for chatroom in chatrooms %}
+        <li>
+            <strong>{{ chatroom.name }}</strong> (created by {{ chatroom.creator.username }})
+            <form class="inline" action="{{ url_for('join_chatroom', chatroom_id=chatroom.id) }}" method="post">
+                <button type="submit">Join</button>
+            </form>
+            {% if chatroom.creator_id == user.id %}
+                <form class="inline" action="{{ url_for('delete_chatroom', chatroom_id=chatroom.id) }}" method="post">
+                    <button type="submit">Delete</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No chatrooms exist yet!</p>
+{% endif %}
+
+<h2>Create a chatroom</h2>
+<form action="{{ url_for('create_chatroom') }}" method="post">
+    <label for="name">Chatroom name</label>
+    <input id="name" name="name" required>
+    <button type="submit">Create chatroom</button>
+</form>
+{% endblock %}

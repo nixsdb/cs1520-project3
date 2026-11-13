@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>{{ chatroom.name }}</h2>
+<form action="{{ url_for('leave_chatroom', chatroom_id=chatroom.id) }}" method="post">
+    <button type="submit">Leave room</button>
+</form>
+
+<h3>Messages</h3>
+<p id="noMessages">Send the first message!</p>
+<ul id="messages"></ul>
+
+<h3>Send a message</h3>
+<form id="messageForm">
+    <label for="messageText">Message</label>
+    <input id="messageText" name="text" maxlength="2000" required>
+    <button type="submit">Send</button>
+</form>
+
+<script>
+    const messagesUrl = {{ url_for('chatroom_messages', chatroom_id=chatroom.id)|tojson }};
+    const chatroomsUrl = {{ url_for('chatrooms')|tojson }};
+    const loginUrl = {{ url_for('login_controller')|tojson }};
+</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
